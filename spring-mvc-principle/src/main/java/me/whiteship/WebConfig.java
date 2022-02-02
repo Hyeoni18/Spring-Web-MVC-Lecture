@@ -14,14 +14,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan
 public class WebConfig {
 
-    //뷰리졸버를 등록해볼거야.
     @Bean
     public ViewResolver viewResolver() {
-        //우리가 기본으로 사용하게 되는 리졸버가 맞아.
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        //근데 우리가 설정을 조금 해볼거야.
-        viewResolver.setPrefix("/WEB-INF/"); //항상 여기 밑에 두겠다.
-        viewResolver.setSuffix(".jsp"); //다 jsp 로 끝난다.
+        viewResolver.setPrefix("/WEB-INF/");
+        viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
 }
