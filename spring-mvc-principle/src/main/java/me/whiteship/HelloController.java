@@ -6,21 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//이 컨트롤러를 쓰고 싶어. 어떤 요청을 처리하는 핸들러를 이런식으로 만들고 싶어. 그럼 우리는 스프링 MVC를 써야하는거야.
-//그럼 이런 핸들러 쪽으로 요청을 dispatch 해줄 수 있는 , @RestController, @GetMapping 어노테이션을 이해하는 , return 응답을 HttpResponse 로 만들어줄 수 있는 DispatcherServlet 을 써야한다는거야.
-@RestController
+@Controller
 public class HelloController {
 
     @Autowired
-    HelloService helloService; //bean 으로 등록된 거 가져다 씀.
+    HelloService helloService;
 
     @GetMapping("/hello")
     @ResponseBody
-    public String hello() {
+    public String hello() { //public @ResponseBody String hello() 처럼 리턴 타입 위치에 적어도 돼, 동일함. 리턴 타입이 되거나 그런거 아님.
         return "Hello, " + helloService.getName();
     }
 
     @GetMapping("/sample")
-    public void sample() {}
+    public String sample() {
+        return "/WEB-INF/sample.jsp"; // return WEB-INF/sample.jsp; 이라고 작성 했을 때 view 로 인식을 못해서 error 발생.
+    }
 
+    //둘 다 문자열을 리턴하지만 ResponseBody 의 유무 차이가 있음.
 }
