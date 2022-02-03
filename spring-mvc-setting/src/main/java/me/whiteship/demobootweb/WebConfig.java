@@ -9,10 +9,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
@@ -20,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebMvc //Configuration 이 붙은 클래스에 붙여주면 돼.
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer{
 
     @Bean
     public Jaxb2Marshaller jaxb2Marshaller() {
@@ -35,6 +32,13 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AnotherInterceptor())
                 .addPathPatterns("/hi")
                 .order(-1);
+    }
+
+    //확장 포인트 중 하나, 뷰 리졸버와 관련 있는 메소드.
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        //이렇게 커스터마이징을 쉽게 할 수 있음.
+        registry.jsp("/WEB-INF", ".jsp");
     }
 
     @Override
