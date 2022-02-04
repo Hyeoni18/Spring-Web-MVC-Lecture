@@ -26,8 +26,8 @@ public class SampleController {
     }
 
     @GetMapping("/jsonMessage")
-    public Person jsonMessage(@RequestBody Person person) {
-        return person;
+    public Person jsonMessage(@RequestBody Person person) { //요청 본문에 들어오는 문자열을 Person 으로 바꾸고 싶어.
+        return person; //내보내는 응답을 Json 으로 내보내고 싶은 경우야.
     }
 
 }

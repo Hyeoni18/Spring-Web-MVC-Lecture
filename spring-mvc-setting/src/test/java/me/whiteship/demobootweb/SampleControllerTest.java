@@ -35,53 +35,34 @@ public class SampleControllerTest {
     @Autowired
     PersonRepository personRepository;
 
-  /*  @Autowired
-    ObjectMapper objectMapper;
-
     @Autowired
-    Marshaller marshaller;
+    ObjectMapper objectMapper;
+    /*
+        @Autowired
+        Marshaller marshaller;
 
-    @Test
-    public void jsonMessage() throws Exception {
-        Person person = new Person();
-        person.setId(2019l);
-        person.setName("keesun");
+        @Test
+        public void xmlMessage() throws Exception {
+            Person person = new Person();
+            person.setId(2019l);
+            person.setName("keesun");
 
-        String jsonString = objectMapper.writeValueAsString(person);
+            StringWriter stringWriter = new StringWriter();
+            Result result = new StreamResult(stringWriter);
+            marshaller.marshal(person, result);
+            String xmlString = stringWriter.toString();
 
-        this.mockMvc.perform(get("/jsonMessage")
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .accept(MediaType.APPLICATION_JSON_UTF8)
-                    .content(jsonString))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(2019))
-                .andExpect(jsonPath("$.name").value("keesun"))
-        ;
-    }
-
-    @Test
-    public void xmlMessage() throws Exception {
-        Person person = new Person();
-        person.setId(2019l);
-        person.setName("keesun");
-
-        StringWriter stringWriter = new StringWriter();
-        Result result = new StreamResult(stringWriter);
-        marshaller.marshal(person, result);
-        String xmlString = stringWriter.toString();
-
-        this.mockMvc.perform(get("/jsonMessage")
-                .contentType(MediaType.APPLICATION_XML)
-                .accept(MediaType.APPLICATION_XML)
-                .content(xmlString))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(xpath("person/name").string("keesun"))
-                .andExpect(xpath("person/id").string("2019"))
-        ;
-    }
-*/
+            this.mockMvc.perform(get("/jsonMessage")
+                    .contentType(MediaType.APPLICATION_XML)
+                    .accept(MediaType.APPLICATION_XML)
+                    .content(xmlString))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(xpath("person/name").string("keesun"))
+                    .andExpect(xpath("person/id").string("2019"))
+            ;
+        }
+    */
     @Test
     public void hello() throws Exception {
         Person person = new Person();
@@ -123,5 +104,25 @@ public class SampleControllerTest {
         ;
     }
 
+    @Test
+    public void jsonMessage() throws Exception {
+        Person person = new Person();
+        person.setId(2022l); //long 이라서 뒤에 l 을 붙였음.
+        person.setName("myname");
+
+        String jsonString = objectMapper.writeValueAsString(person); //잭슨이 제공. person 객체를 json 으로 바꾸고 싶을 때 사용.
+
+        this.mockMvc.perform(get("/jsonMessage")
+                //여러 가지 컨버터 중 어떤 컨버터를 사용해야 할지 판단할 때, 컨텐츠 타입과 헤더 정보를 참고
+                        .contentType(MediaType.APPLICATION_JSON_UTF8) //내가 보내는 데이터.
+                        .accept(MediaType.APPLICATION_JSON_UTF8) //응답으로 어떤 타입의 데이터를 원한다.
+                        .content(jsonString))
+    //                    .content("{\"id\":0,\"name\"")) //ObjectMapper 없이 그냥 이렇게 사용해도 돼.
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(2022))
+                .andExpect(jsonPath("$.name").value("myname"))
+        ;
+    }
 
 }
