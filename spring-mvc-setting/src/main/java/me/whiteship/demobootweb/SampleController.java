@@ -19,14 +19,15 @@ public class SampleController {
         return "hello " + person.getName();
     }
 
-   /* @GetMapping("/message")
-    public String message(@RequestBody String body) {
+    @GetMapping("/message")
+    //@ResponseBody 가 붙어 있으면 응답을, 그니까 리턴하는 값을 응답의 본문으로 넣어줌. 그런데 이 컨트롤러는 Rest 를 쓰고 있기에 기본적으로 적용됨.
+    public String message(@RequestBody String body) { //RequestBody 는 요청 본문에 들어있는 메세지를 HTTP 메시지 컨버터를 사용해서 컨버전을 함.
         return body;
     }
 
     @GetMapping("/jsonMessage")
     public Person jsonMessage(@RequestBody Person person) {
         return person;
-    }*/
+    }
 
 }

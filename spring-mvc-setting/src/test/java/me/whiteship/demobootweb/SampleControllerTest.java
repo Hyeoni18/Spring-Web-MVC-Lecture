@@ -112,7 +112,7 @@ public class SampleControllerTest {
                 .andExpect(header().exists(HttpHeaders.CACHE_CONTROL))
         ;
     }
- /*
+
     @Test
     public void stringMessage() throws Exception {
         this.mockMvc.perform(get("/message")
@@ -122,6 +122,6 @@ public class SampleControllerTest {
                 .andExpect(content().string("hello"))
         ;
     }
-*/
+
 
 }

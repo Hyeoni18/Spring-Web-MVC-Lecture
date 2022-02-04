@@ -46,4 +46,16 @@ public class WebConfig implements WebMvcConfigurer{
         ;
     }
 
+    // 추가적으로 http 메세지를 설정하고 싶다. 2가지 방법이 있는데 하나는 configure 메세지 컨버터를 사용하는건데.
+    // 이걸 사용하면 컨버터를 등록할 수는 있는데 기본 컨버터는 다 사용 못하게 돼.
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.configureMessageConverters(converters);
+    }
+
+    // 근데 기본 컨버터 + 추가적인걸 원하면 그냥 configure 말고 extent 를 사용 하면 돼
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.extendMessageConverters(converters);
+    }
 }
