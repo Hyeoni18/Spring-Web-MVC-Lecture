@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-@EnableWebMvc //Configuration 이 붙은 클래스에 붙여주면 돼.
+//@EnableWebMvc //Configuration 이 붙은 클래스에 붙여주면 돼.
 public class WebConfig implements WebMvcConfigurer{
 
     @Bean
@@ -48,4 +48,9 @@ public class WebConfig implements WebMvcConfigurer{
                 .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
     }
 
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new PersonFormatter());
+        //registry.addConverter(); //컨버터도 추가 가능, 포메터보다 좀 더 일반적인 용도임. 굳이 문자열이 아닌 일반적인 객체에서 또 다른 일반적인 객체로 변환할 수 있는 인터페이스임. 필요한 경우에 추가해서 쓰면 됨.
+    }
 }
