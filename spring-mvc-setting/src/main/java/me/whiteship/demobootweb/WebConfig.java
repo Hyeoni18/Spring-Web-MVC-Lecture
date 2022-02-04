@@ -22,7 +22,9 @@ public class WebConfig implements WebMvcConfigurer{
     @Bean
     public Jaxb2Marshaller jaxb2Marshaller() {
         Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan(Person.class.getPackageName());
+        //그냥 등록하면 안되고 설정을 하나 해줘야 해.
+        jaxb2Marshaller.setPackagesToScan(Person.class.getPackageName()); //뭘 스캔하는거냐면 클래스 중에 특정한 xml 이 있어.
+        //@XmlRootElement 어노테이션이 붙은 클래스를 찾아. jaxb 에서 사용하는 xml 이 있는데 어떤 rootElement 가 있는지 알려줘야 해. 그래야 변환을 할 수 있음.
         return jaxb2Marshaller;
     }
 

@@ -37,32 +37,35 @@ public class SampleControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
-    /*
-        @Autowired
-        Marshaller marshaller;
 
-        @Test
-        public void xmlMessage() throws Exception {
-            Person person = new Person();
-            person.setId(2019l);
-            person.setName("keesun");
+    @Autowired
+    Marshaller marshaller; //추상화 되어 있는 인터페이스.
 
-            StringWriter stringWriter = new StringWriter();
-            Result result = new StreamResult(stringWriter);
-            marshaller.marshal(person, result);
-            String xmlString = stringWriter.toString();
+    @Test
+    public void xmlMessage() throws Exception { //jsonMessage 참고
+        Person person = new Person();
+        person.setId(2022l);
+        person.setName("nameisname");
 
-            this.mockMvc.perform(get("/jsonMessage")
-                    .contentType(MediaType.APPLICATION_XML)
-                    .accept(MediaType.APPLICATION_XML)
-                    .content(xmlString))
-                    .andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(xpath("person/name").string("keesun"))
-                    .andExpect(xpath("person/id").string("2019"))
-            ;
-        }
-    */
+        //JSON 에서 했던
+        //String jsonString = objectMapper.writeValueAsString(person); // 이 부분을 xml 스트링으로 바꿔야해.
+
+        StringWriter stringWriter = new StringWriter();
+        Result result = new StreamResult(stringWriter);
+        marshaller.marshal(person, result); //person 이란 객체를 StreamResult 로 바꿀거야.
+        String xmlString = stringWriter.toString();
+
+        this.mockMvc.perform(get("/jsonMessage")
+                .contentType(MediaType.APPLICATION_XML) //컨텐츠 타입으로 우린 xml 을 보내고 있다.
+                .accept(MediaType.APPLICATION_XML) //응답으로 xml 을 받고 싶다.
+                .content(xmlString))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(xpath("person/name").string("nameisname"))
+                .andExpect(xpath("person/id").string("2022"))
+        ;
+    }
+
     @Test
     public void hello() throws Exception {
         Person person = new Person();
