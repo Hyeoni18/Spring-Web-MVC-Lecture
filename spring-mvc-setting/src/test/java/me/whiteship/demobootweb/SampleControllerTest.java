@@ -94,16 +94,25 @@ public class SampleControllerTest {
                 .andExpect(content().string("hello boa"));
     }
 
-   /* @Test
+   @Test
     public void helloStatic() throws Exception {
-        this.mockMvc.perform(get("/mobile/index.html"))
+        this.mockMvc.perform(get("/index.html"))
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(content().string(Matchers.containsString("Hello Mobile")))
-            .andExpect(header().exists(HttpHeaders.CACHE_CONTROL))
+            .andExpect(content().string(Matchers.containsString("hello static/index")))
         ;
     }
 
+    @Test
+    public void helloMobile() throws Exception {
+        this.mockMvc.perform(get("/mobile/index.html"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(Matchers.containsString("Hello mobile/index")))
+                .andExpect(header().exists(HttpHeaders.CACHE_CONTROL))
+        ;
+    }
+ /*
     @Test
     public void stringMessage() throws Exception {
         this.mockMvc.perform(get("/message")

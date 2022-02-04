@@ -36,9 +36,14 @@ public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/mobile/**")
-                .addResourceLocations("classpath:/mobile/")
-                .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
+        registry.addResourceHandler("/mobile/**") //우리가 어떤 패턴의 요청을 처리할 지
+                .addResourceLocations("classpath:/mobile/", "file:/Users/name/files") //리소스를 어디서 찾아야 할 지
+                .setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES)) //여러가지 설정할 수 있는데 기본적으로 캐시만 설정을 해보기로 함.
+        //여기서 리턴하는 리소스는 기본적으로 캐시와 관련된 헤더가 응답헤더에 추가되고, 기본적으로 이 응답은 10분동안 캐싱할거야. 리소스가 변경됐다면 10분이 지나지 않았어도 리소스를 다시 받아오겠지만.
+                .resourceChain(true) //캐시를 쓸지 말지 , 운영은 true 개발은 false
+//                .addResolver() //어떤 요청에 해당하는 리소스를 찾는 방법
+//                .addTransformer() //응답으로 내보낼 리소스를 변경하는 방법.
+        ;
     }
 
 }
