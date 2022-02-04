@@ -5,11 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+//@XmlRootElement
 @Entity
 public class Person {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue //db 에 들어갈 때 자동 생성 할거면 GeneratedValue 붙여주기
     private Long id;
 
     private String name;
@@ -20,13 +20,6 @@ public class Person {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                '}';
     }
 
     public Long getId() {

@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-//@WebMvcTest //Web과 관련된 계층만 테스트 하는 어노테이션 mockMvc 사용할 수 있음.
 public class SampleControllerTest {
 
     @Autowired
@@ -36,7 +35,7 @@ public class SampleControllerTest {
     @Autowired
     PersonRepository personRepository;
 
-    @Autowired
+  /*  @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
@@ -82,20 +81,20 @@ public class SampleControllerTest {
                 .andExpect(xpath("person/id").string("2019"))
         ;
     }
-
+*/
     @Test
     public void hello() throws Exception {
-//        Person person = new Person();
-//        person.setName("keesun");
-//        Person savedPerson = personRepository.save(person);
+        Person person = new Person();
+        person.setName("boa");
+        Person savedPerson = personRepository.save(person);
 
         this.mockMvc.perform(get("/hello")
-                    .param("name", "myname"))
+                    .param("id", savedPerson.getId().toString()))
                 .andDo(print())
-                .andExpect(content().string("hello myname"));
+                .andExpect(content().string("hello boa"));
     }
 
-    @Test
+   /* @Test
     public void helloStatic() throws Exception {
         this.mockMvc.perform(get("/mobile/index.html"))
             .andDo(print())
@@ -114,6 +113,6 @@ public class SampleControllerTest {
                 .andExpect(content().string("hello"))
         ;
     }
-
+*/
 
 }

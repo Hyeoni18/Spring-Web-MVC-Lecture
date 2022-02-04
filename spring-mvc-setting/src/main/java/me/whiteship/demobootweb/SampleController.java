@@ -15,11 +15,11 @@ public class SampleController {
     // afterCompletion 1
 
     @GetMapping("/hello")
-    public String hello(@RequestParam("name") Person person) {
+    public String hello(@RequestParam("id") Person person) {
         return "hello " + person.getName();
     }
 
-    @GetMapping("/message")
+   /* @GetMapping("/message")
     public String message(@RequestBody String body) {
         return body;
     }
@@ -27,6 +27,6 @@ public class SampleController {
     @GetMapping("/jsonMessage")
     public Person jsonMessage(@RequestBody Person person) {
         return person;
-    }
+    }*/
 
 }
