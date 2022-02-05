@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,12 +23,12 @@ public class SampleControllerTest extends TestCase {
 
     @Test
     public void helloTest() throws Exception {
-        mockMvc.perform(get("/hello/boa.jsp"))
+        mockMvc.perform(get("/hello")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+         //               .accept(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("hello boa"))
-                .andExpect(handler().handlerType(SampleController.class)) //핸들러 타입은 컨트롤러가 처리할 것이고
-                .andExpect(handler().methodName("hello")) //핸들러의 메서드 이름
         ;
     }
 
