@@ -26,20 +26,10 @@ public class SampleControllerTest extends TestCase {
 
     @Test
     public void helloTest() throws Exception {
-        mockMvc.perform(options("/hello")
-                )
+        mockMvc.perform(get("/hello"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(header().exists(HttpHeaders.ALLOW)) //헤더가 있는지 확인
-        //        .andExpect(header().stringValues(HttpHeaders.ALLOW,"GET,HEAD,POST,OPTIONS")) //순서가 다르면 error 남.
-                //순서 상관없이 찾고 싶다면.
-                .andExpect(header().stringValues(HttpHeaders.ALLOW,
-                        hasItems(containsString("GET"),
-                                containsString("POST"),
-                                containsString("HEAD"),
-                                containsString("OPTIONS")
-                        )
-                ))
+                .andExpect(status().isOk()
+                )
         ;
     }
 
