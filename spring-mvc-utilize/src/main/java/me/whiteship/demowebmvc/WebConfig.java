@@ -19,4 +19,9 @@ public class WebConfig implements WebMvcConfigurer {
         //기본적으로는 세미콜론을 없애나 봄. 세미콜론이 사라지면 MatrixVariable 바인딩이 안 돼.
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new VisitTimeInterceptor());
+        //내가 만든 인터셉터 적용
+    }
 }
