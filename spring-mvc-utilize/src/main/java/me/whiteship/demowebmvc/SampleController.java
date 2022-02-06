@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.BindException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -22,14 +24,31 @@ public class SampleController {
         return "/events/form";
     }
 
-    @PostMapping("/events/name/{name}")
-    @ResponseBody
-    public Event hello(@Validated(Event.ValidateName.class) @ModelAttribute Event event, BindingResult bindingResult) {
-        //Event 에는 NotBlank 를 보면 그룹으로 지정할 수가 있음. 근데 @Valid 는 그룹을 설정할 수 없음.
+    @PostMapping("/events")
+    public String createEvent(@Validated @ModelAttribute Event event, BindingResult bindingResult
+                        ,Model model) {
         if(bindingResult.hasErrors()) {
-            System.out.println("=========================================");
-            bindingResult.getAllErrors().forEach( c -> System.out.println(c) );
+            return "/events/form";
         }
-        return event;
+        List<Event> eventList = new ArrayList<>();
+        eventList.add(event);
+        model.addAttribute("eventList", eventList);
+
+        //여기서는 DB에 save 를 했다는 가정
+        return "redirect:/events/list";
+    }
+
+    @GetMapping("/events/list")
+    public String getEvents(Model model) {
+        //DB에서 값을 조회했다는 가정.
+        Event event = new Event();
+        event.setName("spring");
+        event.setLimit(10);
+
+        List<Event> eventList = new ArrayList<>();
+        eventList.add(event);
+        model.addAttribute("eventList", eventList);
+
+        return "/events/list";
     }
 }
