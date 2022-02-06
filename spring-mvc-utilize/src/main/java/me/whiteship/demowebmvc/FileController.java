@@ -18,6 +18,10 @@ import java.io.IOException;
 @Controller
 public class FileController {
 
+    //파일을 읽어오는 방법
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     @GetMapping("/file")
     public String fileUploadForm(Model model) { //리다이렉트 된 메세지는 모델에 자동으로 담김.
         return "/files/index";
@@ -32,4 +36,19 @@ public class FileController {
         return "redirect:/file";
     }
 
+    @GetMapping("/file/{filename}")
+    @ResponseBody //ResponseEntity 자체가 응답 본문이기에 ResponseBody 어노테이션을 주던 말던 상관없음.
+    public ResponseEntity<Resource> fileDownload(@PathVariable String filename) throws IOException { //ResponseEntity 안에 응답의 본문에 대한 타입을 정의할 수 있음.
+        Resource resource = resourceLoader.getResource("classpath:" + filename+".jpg"); //클래스패스 기준으로 파일 읽어오면 돼.
+        File file = resource.getFile();
+
+        Tika tika = new Tika(); //재사용이 가능하니 bean 으로 등록해도 괜찮을 거 같음.
+        String mediaType = tika.detect(file);
+
+        return ResponseEntity.ok() //상태코드 200으로 응답을 하는거고.
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachement; filename\"" + resource.getFilename() + "\"") //사용자가 이 파일을 다운로드 받을 때 팝업창이 뜨면서 어떤 이름으로 저장할건지 이름을 정해줄 수 있음.
+                .header(HttpHeaders.CONTENT_TYPE, mediaType) //어떤 파일인지 알아야 해. 근데 이 타입을 알려주는 라이브러리가 있어. tika.
+                .header(HttpHeaders.CONTENT_LENGTH, file.length()+"")
+                .body(resource);
+    }
 }
