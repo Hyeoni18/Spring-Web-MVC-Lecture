@@ -33,12 +33,11 @@ public class SampleControllerTest extends TestCase {
     }
     @Test
     public void hello() throws Exception {
-        mockMvc.perform(post("/events")
-                        .param("name","boa")
-                        .param("limit","20"))
+        mockMvc.perform(post("/events/name/nnnnn")
+                        .param("limit","-10"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("boa"))
+                .andExpect(jsonPath("name").value("nnnnn"))
         ;
     }
 
