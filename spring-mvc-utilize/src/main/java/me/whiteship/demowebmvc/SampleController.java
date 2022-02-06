@@ -49,19 +49,19 @@ public class SampleController {
             return "/events/form-limit";
         }
         sessionStatus.setComplete();
-        redirectAttributes.addAttribute("name", event.getName());
-        redirectAttributes.addAttribute("limit",event.getLimit());
+        redirectAttributes.addFlashAttribute("newEvent", event); // 객체를 넣을 수 있어. 그럼 이거는 session 에 들어가. 그리고 redirect 된 곳에서 사용이 되면 제거가 돼. 1회성 인거지. 그리고 session 으로 전달되기 때문에 uri 경로에 노출되지 않아.
         return "redirect:/events/list";
     }
 
     @GetMapping("/events/list")
-    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime
-                        ,@ModelAttribute("newEvent") Event event) { //SessionAttributes 에서 사용한 이름이랑 같이 사용하면 안 돼. 세션에서 먼저 찾아봐. 근데 없기 때문에 error 가 날거야. Expected session attribute 'event'
+    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime) {
         System.out.println(visitTime);
 
         Event spring = new Event();
         spring.setName("spring");
         spring.setLimit(10);
+
+        Event event = (Event) model.asMap().get("newEvent");
 
         List<Event> eventList = new ArrayList<>();
         eventList.add(spring);
