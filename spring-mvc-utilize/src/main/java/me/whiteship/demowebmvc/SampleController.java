@@ -22,6 +22,12 @@ import java.util.Map;
 @SessionAttributes("event")
 public class SampleController {
 
+    @ExceptionHandler({EventException.class,RuntimeException.class}) //여러 에러를 같이 처리하고 싶으면 여러 핸들러를 정의할 수 있음.
+    public String eventErrorHandler(RuntimeException exception, Model model) { // 그럼 이럴 때는 둘 다 받을 수 있는 상위 타입으로 정의해야 해.
+        model.addAttribute("message","runtime error");
+        return "error";
+    }
+
     @InitBinder("event") //그리고 여기에 값을 줄 수 있는데 여기에 주는 값을 문자열을 주면 이 모델객체, 이 이름의 모델 애트리뷰트를 바인딩 받을 때만 InitBinder 를 사용할 수 있음.
     public void initEventBinder(WebDataBinder webDataBinder) { //특이한 파라미터 하나로 받을 수 있음. WebDataBinder 는 반드시 있어야 함.
         //모든 요청 전에 이렇게 하면 InitBinder 라는 메소드를 호출하게 됨.
@@ -44,9 +50,11 @@ public class SampleController {
 
     @GetMapping("/events/form/name")
     public String eventsFormName(Model model) {
-        Event event = new Event();
-        model.addAttribute("event", event);
-        return "/events/form-name";
+        throw new EventException(); //일부러 예외 발생.
+//
+//        Event event = new Event();
+//        model.addAttribute("event", event);
+//        return "/events/form-name";
     }
 
     @PostMapping("/events/form/name")

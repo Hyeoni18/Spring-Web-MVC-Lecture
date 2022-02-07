@@ -14,6 +14,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/events")
 public class SampleApi {
 
+    @ExceptionHandler
+    public ResponseEntity erorrHandler() {
+        //REST API 같은 경우에는 본문에 에러가 왜 났는지 에러 정보를 줘야 함.
+        //그래야 client 가 왜 에러가 났는지 알 수 있기에. 상태 값도
+        return ResponseEntity.badRequest().body("can't create event as ... "); //그리고 바디 값도 적어줘야해. 그래서 리턴 값을 ReponseEntity 로 주로 사용함.
+    }
 
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody @Valid Event event, BindingResult bindingResult) {
