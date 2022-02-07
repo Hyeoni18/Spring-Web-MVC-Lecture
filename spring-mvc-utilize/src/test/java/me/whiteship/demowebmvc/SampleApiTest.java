@@ -33,16 +33,15 @@ public class SampleApiTest extends TestCase {
         event.setName("naming");
         event.setLimit(-20);
 
-        //본문에 있는 객체를 ObjectMapper 로 어떻게 스트링으로 변환할 수 있냐면
-        String json = objectMapper.writeValueAsString(event); //이렇게 하면 객체를 JSON 문자열로 변환할 수 있음.
+        String json = objectMapper.writeValueAsString(event);
 
         mockMvc.perform(post("/api/events")
-                .contentType(MediaType.APPLICATION_JSON_UTF8) //사용할 컨버터를 선택할 때 필요한 컨텐츠 타입을 알려주는게 좋아.
-                .content(json)  //본문을 채우는거야
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json)
+                        .accept(MediaType.APPLICATION_JSON_UTF8)
             ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("naming")) //값을 확인
-                .andExpect(jsonPath("limit").value(-20));
+                .andExpect(status().isBadRequest()) //값이 잘못되었을 경우 bedRequest 가 나올거야.
+        ;
     }
 
 }

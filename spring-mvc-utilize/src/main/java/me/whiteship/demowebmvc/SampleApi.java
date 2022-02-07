@@ -1,29 +1,29 @@
 package me.whiteship.demowebmvc;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/api/events")
 public class SampleApi {
 
 
     @PostMapping
-    public Event createEvent(@RequestBody @Valid Event event, BindingResult bindingResult) {
+    public ResponseEntity<Event> createEvent(@RequestBody @Valid Event event, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(error -> {
-                System.out.println(error);
-                //이렇게 하면 error 처리를 커스텀 하게 할 수 있음.
-            });
+            return ResponseEntity.badRequest().build(); //테스트로 돌아가서
+            //factory 메소드가 헷갈리는게 어떤건 build 를 해야 완성이 되는게 있어. ok 는 그냥 해야 되던데.
         }
-        return event;
+
+        //return ResponseEntity.ok().build(); //body 를 채워서 요청 만드는게 끝났다고 생각하는건가? 오. 바디가 비워져 있으면 build 를 해야 함.
+        return new ResponseEntity<Event>(event,HttpStatus.CREATED); //원래는 HttpStatus.CREATED 로 보낼 때 URI 를 만들어서 보내줘야 하는데 (location 헤더에) 근데 이렇게 하면 그냥 보낼 수 있지만 좋은 방법은 아님. 그냥 상태코드를 바꿔서 보낼 수 있다는 것을 보여주려고 실습함. 201 created 응답을 볼 수 있음.
     }
 
 //    //근데 HttpEntity 를 사용하게 되면
