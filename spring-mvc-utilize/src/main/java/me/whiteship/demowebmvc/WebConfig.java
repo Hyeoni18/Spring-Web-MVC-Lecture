@@ -1,11 +1,14 @@
 package me.whiteship.demowebmvc;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.UrlPathHelper;
+
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -23,5 +26,17 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new VisitTimeInterceptor());
         //내가 만든 인터셉터 적용
+    }
+
+    //내가 원하는 컨버터 추가.
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.extendMessageConverters(converters);
+    }
+
+    //이거를 쓰면 기본 메세지 컨버터를 아예 안 쓰게 되니 이건 가급적이면 쓰지 말자.
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.configureMessageConverters(converters);
     }
 }
