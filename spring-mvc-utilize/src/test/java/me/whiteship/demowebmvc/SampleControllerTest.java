@@ -67,6 +67,8 @@ public class SampleControllerTest extends TestCase {
                 .flashAttr("newEvent", newEvent)
         ).andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(xpath("//p").nodeCount(2)); //p 노드가 2개 있는지 확인 (html 본문도 테스트 가능)
+                .andExpect(xpath("//p").nodeCount(2))
+                .andExpect(model().attributeExists("categories"))
+        ;
     }
 }

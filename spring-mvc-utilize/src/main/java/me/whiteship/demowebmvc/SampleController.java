@@ -21,10 +21,21 @@ import java.util.Map;
 @SessionAttributes("event")
 public class SampleController {
 
+    @ModelAttribute
+    public void categories(Model model) {
+        model.addAttribute("categories", List.of("study", "seminar", "hobby", "cosial")); //List.of는 java 9 이상부터 사용 가능
+    }
+
+    @ModelAttribute("categories") //이름은 여기에 정의 해주면 돼. 리턴 객체가 하나면 이런 식으로 하면 돼.
+    public List<String> categoryList(Model model) { //굳이 void 가 아니라 리턴을 해줘도 돼.
+        return List.of("study", "seminar", "hobby", "cosial");
+    }
+
     @GetMapping("/events/form/name")
-    public String eventsFormName(Model model) {
-        model.addAttribute("event", new Event());
-        return "/events/form-name";
+    @ModelAttribute //이렇게 어노테이션을 붙이면, 만약 모델 객체를 바로 리턴 하는 경우에
+    public Event eventsFormName(Model model) {
+        return new Event(); //이렇게 되면 리턴하는 객체를 자동으로 모델에 담아주는거야. 코드가 간결해짐. 사실 @ModelAttribute 어노테이션 생략해도 됨.
+        //그럼 뷰 이름은? RequestToViewNameTranslator 라는 인터페이스가 요청의 이름과 정확히 일치하는 뷰 이름으로 리턴을 해줌. 그래서 사실 정확하지는 않아. 우리가 사용한 뷰 이름은 /events/form-name 이니까. 그냥 이런식으로도 할 수 있다,,, 자주 쓰이진 않음.
     }
 
     @PostMapping("/events/form/name")
